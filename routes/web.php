@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/', function () {
+    return redirect()->route('frontend.home');
+});
 
 Route::get('/', 'PageController@home')->name('template.home');
 Route::get('/about', 'PageController@about')->name('template.about');
@@ -24,10 +27,19 @@ Route::get('/home', function () {
 
 // CRUD
 Route::middleware('auth','role:admin')->group(function(){
-    Route::resource('categories', 'CategoryController'); // 7 methods
+Route::resource('categories', 'CategoryController'); // 7 methods
 Route::resource('items', 'ItemController'); // 7 methods
 Route::resource('orders', 'OrderController'); // 7 methods
 });
+
+// Frontend
+Route::prefix('frontend')->group(function(){
+Route::get('home', 'FrontendController@home')->name('frontend.home');
+Route::get('about', 'FrontendController@about')->name('frontend.about');
+Route::get('contact', 'FrontendController@contact')->name('frontend.contact');
+
+});
+
 
 // Authentication
 
