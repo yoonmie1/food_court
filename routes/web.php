@@ -13,13 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'PageController@home')->name('template.home');
-Route::get('/about', 'PageController@about')->name('template.about');
-Route::get('/contact', 'PageController@contact')->name('template.contact');
-Route::get('/post', 'PageController@post')->name('template.post');
-
-Route::get('/home', function () {
-    return redirect()->route('template.home');
+Route::get('/', function () {
+    return redirect()->route('frontend.home');
 });
 
 // CRUD
@@ -27,6 +22,14 @@ Route::middleware('auth','role:admin')->group(function(){
     Route::resource('categories', 'CategoryController'); // 7 methods
 Route::resource('items', 'ItemController'); // 7 methods
 Route::resource('orders', 'OrderController'); // 7 methods
+});
+
+// Frontend
+Route::prefix('frontend')->group(function(){
+    Route::get('home', 'FrontendController@home')->name('frontend.home');
+    Route::get('about', 'FrontendController@about')->name('frontend.about');
+    Route::get('contact', 'FrontendController@contact')->name('frontend.contact');
+
 });
 
 // Authentication
